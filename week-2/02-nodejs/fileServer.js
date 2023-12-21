@@ -13,9 +13,46 @@
     Testing the server - run `npm run test-fileServer` command in terminal
  */
 const express = require('express');
-const fs = require('fs');
+const fs = require('fs/promises');
 const path = require('path');
 const app = express();
+// they are mocking callbacks
+app.get('/files' ,async (req,res) =>{
+  
 
+  try{
+
+    const files =  await fs.readdir('files');
+
+   
+    return res.status(200).send(files)
+  }catch(err){
+
+    return res.status(500).send()
+  }
+
+
+})
+
+app.get('/file/:filename' ,async (req,res) =>{
+  
+
+  try{
+
+    const files =  await fs.readFile(`./files/${req.params.filename}`);
+
+    if (files)
+    return res.status(200).send(files)
+  }catch(err){
+
+    return res.status(404).send('File not found')
+  }
+
+
+})
+app.all("*" , (req,res) =>{
+
+  return res.status(404).send("Route not found")
+})
 
 module.exports = app;
