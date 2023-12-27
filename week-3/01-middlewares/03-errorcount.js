@@ -11,18 +11,8 @@ let errorCount = 0;
 // 2. Maintain the errorCount variable whose value should go up every time there is an exception in any endpoint
 
 app.get('/user', function(req, res) {
-
-  // try{
-    throw new Error("User not found");
-
-    res.status(200).json({ name: 'john' });
-  // } 
-  // catch(err){
-
-  //   res.status(404).send()
-  //   errorCount+=1
-  // }
-
+  throw new Error("User not found");
+  res.status(200).json({ name: 'john' });
 });
 
 app.post('/user', function(req, res) {
@@ -33,10 +23,4 @@ app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
 
-
-app.use((err, req,res,next) =>{
-
-  errorCount+=1
-  res.status(404).send('')
-})
 module.exports = app;
